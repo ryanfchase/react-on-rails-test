@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+course = Course.create(title: "Hello World", description: "Create new react app")
+section = Section.create(title: "Chapter 1", description: "The beginning.", course: course)
+episode = Episode.create([
+  { title: 'Florida Man Takes All', description: 'lorem', url: "www.google.com", section: section },
+  { title: 'Rabid Dog Saves Grandmother', description: 'ipsum',  url: "www.google.com", section: section},
+  { title: 'Kentucky Railroad Missing, Wabbit At Large', description: 'there goes',  url: "www.google.com", section: section},
+  { title: 'React Tutorial', description: 'Rick\'s Son',  url: "www.google.com", section: section},
+])
