@@ -1,4 +1,4 @@
 class Episode < ApplicationRecord
   belongs_to :section
-  delegate :course, to: :section
+  belongs_to :course
 end
