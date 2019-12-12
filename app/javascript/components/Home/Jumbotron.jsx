@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const Section =styled.section`
   background-color: #d74235;
-  min-height: 550px;
-  padding: 250px 0;
+  // min-height: 550px;
+  padding: 100px 0;
   color: #fff;
 `;
 
@@ -37,6 +37,15 @@ const Button = styled.a`
   box-shadow: 0px 0px 0px 3px #473228,
     -6px 6px #ef5f17,
     -6px 6px 0px 3px #473228;
+
+  transition-property: none !important;
+  &:hover {
+    position: relative;
+    box-shadow: 0px 0px 0px 3px #473228;
+    top: 6px;
+    left: -6px;
+    transition-property: none !important;
+  }
 `;
 
 const Jumbotron = () => {
