@@ -17,29 +17,24 @@ class Home extends Component {
 
     // THIS IS A REPLACEMENT FOR A DB CALL
     this.state = {
-      course_episodes: [
-        { id: 1, title: 'Florida Man Takes All', description: 'lorem', active: false },
-        { id: 2, title: 'Rabid Dog Saves Grandmother', description: 'ipsum', active: false },
-        { id: 3, title: 'Kentucky Railroad Missing, Wabbit At Large', description: 'Here Lies', active: false },
-        { id: 4, title: 'React Tutorial', description: 'Rick\'s Son', active: false },
-      ],
+      course_episodes: [],
     }
   }
 
   componentDidMount() {
     axios.get('/episodes')
       .then(data => {
-        let res = []
-        data.data.data.map((e, idx) => {
-          // res.push()
-        });
+        this.setState({course_episodes: data.data.map((e, idx) => 
+          ({...e, active: false})
+        )});
 
       }).catch( err => {
         // debugger
+        // console.log("err " + err)
       })
   }
 
-  // ({...e, active: item.id-1 === idx ? true : false})
+  // Toggle when clicked
   handleItemActivate(item, event) {
     event.preventDefault();
     this.setState({course_episodes: this.state.course_episodes.map((e, idx) => 

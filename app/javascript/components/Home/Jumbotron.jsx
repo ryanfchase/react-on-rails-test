@@ -27,14 +27,16 @@ const Embed = styled.div`
 `;
 
 const Button = styled.a`
-  display: inline-block;
   text-decoration: none;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 0;
-  background: #fff;
+  font-weight: bold !important;
+  border-radius: 0 !important;
+  background: #fff !important;
   color: #333 !important;
-  box-shadow: 1px 1px 1px 1px;
+  padding: 10px 20px !important;
+  font-size: 18px;
+  box-shadow: 0px 0px 0px 3px #473228,
+    -6px 6px #ef5f17,
+    -6px 6px 0px 3px #473228;
 `;
 
 const Jumbotron = () => {
@@ -47,13 +49,14 @@ const Jumbotron = () => {
               <Header>React For Rails Developers</Header>
               <Subhead>Supercharge your Ruby on Rails Apps with React.js</Subhead>
               <div className="cta-wrapper">
-                <Button className="btn fancy-btn">asdf</Button>
+                <Button className="btn fancy-btn">Get Started</Button>
               </div>
             </div>
           </div>
           <div className="col col-sm-12 col-md-7">
             <div className="pt-4 mt-4 text-center">
-              <Embed>Big Embed Goes Here</Embed>
+              {/* <Embed>Big Embed Goes Here</Embed> */}
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/B0SxxHAImhc" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
             </div>
           </div>
         </div>

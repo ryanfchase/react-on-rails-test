@@ -13,4 +13,5 @@ episode = Episode.create([
   { title: 'Rabid Dog Saves Grandmother', description: 'ipsum',  url: "www.google.com", section: section, course: course},
   { title: 'Kentucky Railroad Missing, Wabbit At Large', description: 'there goes',  url: "www.google.com", section: section, course: course},
   { title: 'React Tutorial', description: 'Rick\'s Son',  url: "www.google.com", section: section, course: course},
+  { title: 'React Can Have My Dog', description: 'Owwwww',  url: "www.google.com", section: section, course: course},
 ])

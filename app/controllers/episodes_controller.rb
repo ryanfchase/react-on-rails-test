@@ -1,13 +1,12 @@
 class EpisodesController < ApplicationController
   def index
     @episodes = Episode.where(episode_params)
-    render json: { data: @episodes }
+    render json: @episodes, each_serializer: EpisodeSerializer
   end
 
   private
 
   def episode_params
-    # params.permit(:course_id)
-    nil
+    params.permit(:course_id)
   end
 end
