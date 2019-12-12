@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import Video from './Video';
+import styled from 'styled-components';
 
+const Button = styled.a`
+  text-decoration: none;
+  font-weight: bold !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  color: #333 !important;
+  padding: 10px 20px !important;
+  font-size: 18px;
+  box-shadow: 0px 0px 0px 3px #473228,
+    -6px 6px #ef5f17,
+    -6px 6px 0px 3px #473228;
+`;
 const ActiveItem = (props) => {
   return (
     <div className="row">
@@ -14,11 +27,11 @@ const ActiveItem = (props) => {
                   <h4>{props.title}</h4>
                   <p>{props.description}</p>
                   <div className="cta-wrapper">
-                    <a
+                    <Button
                       onClick={props.handleItemActivate}
                       className="btn cta-btn">
                         Watch This Video
-                    </a>
+                    </Button>
                   </div>
                 </div>
               </div>
