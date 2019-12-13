@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   resources :episodes
 
   root to: 'pages#index'
+  match '*path', to: 'pages#index', via: :all
 end
