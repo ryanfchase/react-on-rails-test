@@ -13,10 +13,10 @@ import axios from 'axios';
 
 class Home extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.state = { course_episodes: [], }
+    this.state = { course_episodes: [], };
   }
 
   componentDidMount() {
@@ -43,6 +43,8 @@ class Home extends Component {
   render() {
     return (
       <div>
+        <h1>Home</h1>
+        <h3>Status: {this.props.loggedInStatus} </h3>
         <Navbar />
         <Jumbotron />
         <Table 

@@ -2,24 +2,52 @@
 // like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
 // of the page.
 
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from '../components/Login';
 import Home from '../components/Home/Home';
 import 'bootstrap/dist/css/bootstrap.css';
 
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      loggedInStatus: "NOT_LOGGED_IN",
+      user: {},
+    }
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <BrowserRouter>
+          <Switch>
+            <Route
+              exact
+              path={"/"}
+              render={props => (
+                <Home {...props} loggedInStatus={this.state.loggedInStatus} /> // need to find out what props has (route props)
+              )}
+            />
+            <Route
+              exact
+              path={"/login"}
+              render={props => (
+                <Login {...props} loggedInStatus={this.state.loggedInStatus} />
+              )}
+              component={Login} />
+          </Switch>
+        </BrowserRouter>
+      </div>
+    );
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    // <Home />,
-    <div className="app">
-      <BrowserRouter>
-        <Switch>
-          <Route exact path={"/"} component={Home} />
-          <Route exact path={"/login"} component={Login} />
-        </Switch>
-      </BrowserRouter>
-    </div>,
+    <App />,
     document.body.appendChild(document.createElement('div')),
   )
 })
