@@ -11,12 +11,9 @@ class Registration extends Component {
       password_confirmation: "",
       registrationErrors: ""
     }
-
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     // console.log("FORM SUBMITTED")
     const {
       email,
@@ -51,7 +48,7 @@ class Registration extends Component {
     event.preventDefault();
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     })

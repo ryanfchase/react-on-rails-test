@@ -73,14 +73,24 @@ class App extends Component {
               exact
               path={"/"}
               render={props => (
-                <Home {...props} handleLogin={this.handleLogin} loggedInStatus={this.state.loggedInStatus} /> // need to find out what props has (route props)
+                <Home
+                  {...props}
+                  handleLogin={this.handleLogin}
+                  loggedInStatus={this.state.loggedInStatus}
+                /> // need to find out what props has (route props)
               )}
             />
+
             <Route
               exact
               path={"/login"}
               render={props => (
-                <Login {...props} handleLogin={this.handleLogin} loggedInStatus={this.state.loggedInStatus} />
+                <Login
+                  {...props}
+                  handleLogin={this.handleLogin}
+                  handleLogout={this.handleLogout}
+                  loggedInStatus={this.state.loggedInStatus}
+                />
               )}
             />
           </Switch>

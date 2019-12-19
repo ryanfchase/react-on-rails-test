@@ -11,12 +11,9 @@ class SignIn extends Component {
       password_confirmation: "",
       loginErrors: ""
     }
-
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     // console.log("FORM SUBMITTED")
     const {
       email,
@@ -47,7 +44,7 @@ class SignIn extends Component {
     event.preventDefault();
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     })

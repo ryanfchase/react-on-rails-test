@@ -23,8 +23,10 @@ class SessionsController < ApplicationController
     end
   end
 
-  def logged_out
+  def logout
+    old_user = @current_user if @current_user
+
     reset_session
-    render json: { status: 200, logged_out: true }
+    render json: { status: 200, logged_out: true, user: old_user }
   end
 end
