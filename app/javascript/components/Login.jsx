@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Registration from './auth/Registration'
+import SignIn from './auth/SignIn'
 
 class Login extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class Login extends Component {
   }
 
   handleSuccessfulAuth(data) {
-    // TODO update parent component
+    this.props.handleLogin(data);
     this.props.history.push("/"); // we have props.history from ReactRouter
   }
 
@@ -19,6 +20,7 @@ class Login extends Component {
         <h1>Login</h1>
         <h3>Status: {this.props.loggedInStatus} </h3>
         <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
+        <SignIn handleSuccessfulAuth={this.handleSuccessfulAuth} />
       </div>
     );
   }

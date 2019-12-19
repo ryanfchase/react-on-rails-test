@@ -16,7 +16,16 @@ class App extends Component {
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN",
       user: {},
-    }
+    };
+
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin(data) {
+    this.setState({
+      loggedInStatus: "LOGGED_IN",
+      user: data
+    })
   }
 
   render() {
@@ -28,16 +37,16 @@ class App extends Component {
               exact
               path={"/"}
               render={props => (
-                <Home {...props} loggedInStatus={this.state.loggedInStatus} /> // need to find out what props has (route props)
+                <Home {...props} handleLogin={this.handleLogin} loggedInStatus={this.state.loggedInStatus} /> // need to find out what props has (route props)
               )}
             />
             <Route
               exact
               path={"/login"}
               render={props => (
-                <Login {...props} loggedInStatus={this.state.loggedInStatus} />
+                <Login {...props} handleLogin={this.handleLogin} loggedInStatus={this.state.loggedInStatus} />
               )}
-              component={Login} />
+            />
           </Switch>
         </BrowserRouter>
       </div>
