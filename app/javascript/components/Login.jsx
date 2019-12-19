@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Registration from './auth/Registration'
-import SignIn from './auth/SignIn'
+import RegistrationForm from './auth/RegistrationForm'
+import SignInForm from './auth/SignInForm'
 import axios from 'axios'
 
 class Login extends Component {
@@ -28,8 +28,8 @@ class Login extends Component {
         <h1>Login</h1>
         <h3>Status: {this.props.loggedInStatus} </h3>
         <button onClick={() => this.handleLogoutClick()}> LOGOUT </button>
-        <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
-        <SignIn handleSuccessfulAuth={this.handleSuccessfulAuth} />
+        <RegistrationForm handleSuccessfulAuth={this.handleSuccessfulAuth} />
+        <SignInForm handleSuccessfulAuth={this.handleSuccessfulAuth} />
       </div>
     );
   }

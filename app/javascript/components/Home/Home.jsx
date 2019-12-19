@@ -27,8 +27,7 @@ class Home extends Component {
         )});
 
       }).catch( err => {
-        console.err(err);
-        alert("uh oh... check the logs");
+        console.log("error while display Home", err);
       })
   }
 

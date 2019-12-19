@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class SignIn extends Component {
+class RegistrationForm extends Component {
   constructor(props) {
     super(props);
 
@@ -9,7 +9,7 @@ class SignIn extends Component {
       email: "",
       password: "",
       password_confirmation: "",
-      loginErrors: ""
+      registrationErrors: ""
     }
   }
 
@@ -18,12 +18,14 @@ class SignIn extends Component {
     const {
       email,
       password,
+      password_confirmation
     } = this.state
 
-    axios.post("/sessions", {
+    axios.post("/registrations", {
       user: {
         email: email,
         password: password,
+        password_confirmation: password_confirmation
       }
     },
     { withCredentials: true }) // THIS IS CRUCIAL. THIS TELLS THE API THAT 
@@ -32,14 +34,16 @@ class SignIn extends Component {
                                 // Server side it will act as logged in.
                                 // Client side it will not be logged in.
     .then(res => {
-      console.log("response from login: ", res);
-      if(res.data.logged_in) {
-        this.props.handleSuccessfulAuth(res.data)
+      console.log("registration res", res);
+      if(res.data.status === 'created') {
+        this.props.handleSuccessfulAuth(res.data);
       }
-
+      else {
+         //  DO ERROR MESSAGE
+      }
     })
     .catch(err => {
-      console.log("login error", err);
+      console.log("registration error", err)
     })
     event.preventDefault();
   }
@@ -53,7 +57,7 @@ class SignIn extends Component {
   render() {
     return (
       <div>
-        <div>Login Goes Here</div>
+        <div>Registration Goes Here</div>
         <form onSubmit={this.handleSubmit}>
           <input 
             type="email"
@@ -71,11 +75,20 @@ class SignIn extends Component {
             onChange={this.handleChange}
             required
           />
-          <button type="submit">Login</button>
+          <input 
+            type="password"
+            name="password_confirmation"
+            placeholder="Password confirmation"
+            value={this.state.password_confirmation}
+            onChange={this.handleChange}
+            required
+          />
+
+          <button type="submit">Register</button>
         </form>
       </div>
     );
   }
 }
 
-export default SignIn;
+export default RegistrationForm;
