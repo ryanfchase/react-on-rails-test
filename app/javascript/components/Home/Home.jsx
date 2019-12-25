@@ -6,9 +6,10 @@
 //     -Video
 
 import React, { Component } from 'react';
-import Jumbotron from './Jumbotron';
-import Table from './Table/Table';
-import Navbar from './Navbar';
+// import Jumbotron from './Jumbotron';
+// import Table from './Table/Table';
+// import Navbar from './Navbar';
+import TableBasic from './Table/TableBasic';
 import axios from 'axios';
 
 class Home extends Component {
@@ -31,25 +32,13 @@ class Home extends Component {
       })
   }
 
-  // Toggle when clicked
-  handleItemActivate(item, event) {
-    event.preventDefault();
-    this.setState({course_episodes: this.state.course_episodes.map((e, idx) => 
-      ({...e, active: item.id-1 === idx ? !item.active : false})
-    )});
-  }
-
   render() {
     return (
       <div>
         <h1>Home</h1>
         <h3>Status: {this.props.loggedInStatus} </h3>
-        {/* <Navbar />
-        <Jumbotron />
-        <Table 
-          handleItemActivate={this.handleItemActivate.bind(this)}
-          course_episodes={this.state.course_episodes}
-        /> */}
+        <TableBasic onChange={this.handleChange} course_episodes={this.state.course_episodes} />
+        
       </div>
     );
   }

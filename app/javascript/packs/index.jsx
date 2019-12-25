@@ -82,7 +82,6 @@ class App extends Component {
               render={props => (
                 <Home
                   {...props}
-                  handleLogin={this.handleLogin}
                   loggedInStatus={this.state.loggedInStatus}
                 /> // need to find out what props has (route props)
               )}
