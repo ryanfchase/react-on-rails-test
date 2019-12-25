@@ -12,6 +12,8 @@ import React, { Component } from 'react';
 import TableBasic from './Table/TableBasic';
 import axios from 'axios';
 
+const EPISODES_KEY = "episodes";
+
 class Home extends Component {
 
   constructor(props) {
@@ -21,23 +23,39 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    axios.get('/episodes')
-      .then(data => {
-        this.setState({course_episodes: data.data.map((e, idx) => 
-          ({...e, active: false})
-        )});
+    let course_episodes = localStorage.getItem(EPISODES_KEY);
 
-      }).catch( err => {
-        console.log("error while display Home", err);
-      })
+    if (course_episodes) {
+      this.setState({course_episodes: JSON.parse(course_episodes)})
+    } else {
+      axios.get('/episodes')
+        .then(data => {
+
+          course_episodes = data.data.map( e =>
+            ({...e, active: false})
+          );
+
+          this.setState({course_episodes: course_episodes});
+          localStorage.setItem(EPISODES_KEY, JSON.stringify(course_episodes))
+        }).catch( err => {
+          console.log("error while display Home", err);
+        })
+    }
   }
 
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Home</h1>
         <h3>Status: {this.props.loggedInStatus} </h3>
-        <TableBasic onChange={this.handleChange} course_episodes={this.state.course_episodes} />
+        <div className="row">
+          <div className="col">
+            <TableBasic course_episodes={this.state.course_episodes} />
+          </div>
+          <div className="col order-12">
+            asdfasdf
+          </div>
+        </div>
         
       </div>
     );
