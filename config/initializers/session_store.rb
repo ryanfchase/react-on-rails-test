@@ -4,5 +4,7 @@ if Rails.env == "production"
    domain: "my.custom.name.heroku.com",
    secure: true
 else
-  Rails.application.config.session_store :cookie_store, key: "_authentication_app"
+  Rails.application.config.session_store :cookie_store,
+  key: "_authentication_app",
+  expire_after: 24.hours,
 end

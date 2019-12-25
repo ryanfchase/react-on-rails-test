@@ -10,20 +10,21 @@ import Home from '../components/Home/Home';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios'
 
+const LOGIN_KEY = "loggedIn";
+const LOGIN_VALUE = "loggedIn";
+
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      loggedInStatus: "NOT_LOGGED_IN",
+      loggedInStatus: localStorage.getItem(LOGIN_KEY) || "NOT_LOGGED_IN",
       user: {},
     };
-
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogin(data) {
+  handleLogin = (data) => {
+    localStorage.setItem(LOGIN_KEY, LOGIN_VALUE);
     this.setState({
       loggedInStatus: "LOGGED_IN",
       user: data
@@ -36,9 +37,11 @@ class App extends Component {
         // console.log("loggied in?", JSON.stringify(res))
         if(res.data.logged_in && this.state.loggedInStatus === "NOT_LOGGED_IN") {
           this.setState({
-            loggedInStatus: "LOGGED_IN",
+            loggedInStatus: localStorage.getItem(LOGIN_KEY) || "LOGGED_IN",
             user: res.data.user
           });
+
+          localStorage.setItem(LOGIN_KEY, LOGIN_VALUE);
         }
         else if(!res.data.logged_in && this.state.loggedInStatus === "LOGGED_IN") {
           // Log them out if our DB says their session is no longer good
@@ -46,6 +49,8 @@ class App extends Component {
             loggedInStatus: "NOT_LOGGED_IN",
             user: res.data.user
           });
+
+          localStorage.removeItem(LOGIN_KEY)
         }
       })
       .catch(err => {
@@ -57,11 +62,13 @@ class App extends Component {
     this.checkLoginStatus();
   }
 
-  handleLogout() {
+  handleLogout = () => {
     this.setState({
       loggedInStatus: "NOT_LOGGED_IN",
       user: {}
     })
+
+    localStorage.removeItem(LOGIN_KEY);
   }
 
   render() {

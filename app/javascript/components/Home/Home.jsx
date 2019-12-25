@@ -44,12 +44,12 @@ class Home extends Component {
       <div>
         <h1>Home</h1>
         <h3>Status: {this.props.loggedInStatus} </h3>
-        <Navbar />
+        {/* <Navbar />
         <Jumbotron />
         <Table 
           handleItemActivate={this.handleItemActivate.bind(this)}
           course_episodes={this.state.course_episodes}
-        />
+        /> */}
       </div>
     );
   }
