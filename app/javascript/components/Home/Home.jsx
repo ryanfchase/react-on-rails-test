@@ -19,7 +19,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { course_episodes: [], };
+    this.state = { course_episodes: [], cart: []};
   }
 
   componentDidMount() {
@@ -43,20 +43,19 @@ class Home extends Component {
     }
   }
 
+  addToCart = (episode) => {
+    let { cart } = this.state;
+    cart.push(episode);
+    this.setState({cart: cart})
+  }
+
   render() {
     return (
       <div className="container">
         <h1>Home</h1>
         <h3>Status: {this.props.loggedInStatus} </h3>
-        <div className="row">
-          <div className="col">
-            <TableBasic course_episodes={this.state.course_episodes} />
-          </div>
-          <div className="col order-12">
-            asdfasdf
-          </div>
-        </div>
-        
+        <h3> Total Amount: { this.state.cart.reduce((total, episode) => total + episode.price, 0) }</h3>
+        <TableBasic addToCart={this.addToCart} course_episodes={this.state.course_episodes} cart={this.state.cart} />
       </div>
     );
   }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_13_022301) do
+ActiveRecord::Schema.define(version: 2019_12_26_000809) do
 
   create_table "courses", force: :cascade do |t|
     t.string "title"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2019_12_13_022301) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "course_id"
+    t.decimal "price", precision: 8, scale: 2
     t.index ["course_id"], name: "index_episodes_on_course_id"
     t.index ["section_id"], name: "index_episodes_on_section_id"
   end
