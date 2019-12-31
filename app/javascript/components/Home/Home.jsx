@@ -48,6 +48,21 @@ class Home extends Component {
     this.setState({cart: cart})
   }
 
+  removeFromCart = (episode) => {
+    const { cart } = this.state;
+
+    idx = cart.reduce((cartEpisode, retIdx, idx) => {
+      episode.id === cartEpisode.id ? idx : -1
+    }, -1)
+
+    if (idx !== -1) {
+      let cart = [].concat(cart, episode);
+      this.setState({cart: cart})
+    } else {
+      // SOME ERROR HERE
+    }
+  }
+
   render() {
     return (
       <div className="container">

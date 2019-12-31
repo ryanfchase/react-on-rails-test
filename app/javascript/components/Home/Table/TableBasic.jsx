@@ -18,6 +18,7 @@ class TableBasic extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    debugger;
     if( prevProps.cart.length !== this.props.cart.length ) {
       const aggregates = this.aggregateCart();
       this.setState({
@@ -51,7 +52,7 @@ class TableBasic extends Component {
   cartItemFunc = (key) => {
     return (
       <div className="row px-4 py1" key={cartKey++}>
-        {key} - ({this.state.aggregates[key]})
+        <span>{key} - <button>{this.state.aggregates[key]}</button></span>
       </div>
     );
   }
