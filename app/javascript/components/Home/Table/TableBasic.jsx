@@ -18,7 +18,6 @@ class TableBasic extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    debugger;
     if( prevProps.cart.length !== this.props.cart.length ) {
       const aggregates = this.aggregateCart();
       this.setState({
