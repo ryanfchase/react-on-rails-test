@@ -44,8 +44,7 @@ class Home extends Component {
   }
 
   addToCart = (episode) => {
-    let { cart } = this.state;
-    cart.push(episode);
+    let cart = [].concat(this.state.cart, episode);
     this.setState({cart: cart})
   }
 

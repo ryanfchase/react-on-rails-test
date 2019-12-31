@@ -1,9 +1,34 @@
 import React, { Component } from 'react';
+import ReactModal from 'react-modal';
 
 
 let cartKey = 0;
 
 class TableBasic extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.aggregateCart = this.aggregateCart.bind(this);
+    const aggregates = this.aggregateCart();
+
+    console.log(JSON.stringify(aggregates))
+
+    this.state = {
+      aggregates: aggregates, 
+      emptyCart: Object.keys(aggregates).length === 0,
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if( prevProps.cart.length !== this.props.cart.length ) {
+      const aggregates = this.aggregateCart();
+      this.setState({
+        aggregates: aggregates,
+        emptyCart: Object.keys(aggregates).length === 0,
+      });
+    }
+  }
 
   aggregateCart = () => {
     return this.props.cart.reduce((aggregates, episode) => {
@@ -17,30 +42,32 @@ class TableBasic extends Component {
     }, {});
   }
 
+  tableItemFunc = (episode) => {
+    return (
+      <div className="row px-4 py-1" key={episode.id}>
+        <button className="mx-2" onClick={(e) => this.props.addToCart(episode)}> Add To Cart </button>
+        {episode.title}
+      </div>
+    );
+  }
+
+  cartItemFunc = (key) => {
+    return (
+      <div className="row px-4 py1" key={cartKey++}>
+        {key} - ({this.state.aggregates[key]})
+      </div>
+    );
+  }
+
   render() {
 
-    const items = this.props.course_episodes.map( (episode) => {
-      return (
-        <div className="row px-4 py-1" key={episode.id}>
-          <button className="mx-2" onClick={(e) => this.props.addToCart(episode)}> Add To Cart </button>
-          {episode.title}
-        </div>
-      );
-    });
+    const { aggregates, emptyCart } = this.state;
+    const items = this.props.course_episodes.map(this.tableItemFunc);
 
-    const cartAggregates = this.aggregateCart();
-
-    const keys = Object.keys(cartAggregates);
-
-    const cartItems = keys.length > 0 ? keys.map(key => {
-      return (
-        <div className="row px-4 py1" key={cartKey++}>
-          {key} - ({cartAggregates[key]})
-        </div>
-      );
-    }) : (
-      <div className="row px-4 py1"> (No Items Selected)</div>
-    );
+    const cartItems = emptyCart ?
+      ( <div className="row px-4 py1"> (No Items Selected)</div>) :
+      Object.keys(aggregates).map(this.cartItemFunc);
+      
 
     return (
       <div className="row">
