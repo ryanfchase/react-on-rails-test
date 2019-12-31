@@ -9,10 +9,7 @@ class TableBasic extends Component {
   constructor(props) {
     super(props);
 
-    this.aggregateCart = this.aggregateCart.bind(this);
     const aggregates = this.aggregateCart();
-
-    console.log(JSON.stringify(aggregates))
 
     this.state = {
       aggregates: aggregates, 
@@ -59,14 +56,15 @@ class TableBasic extends Component {
     );
   }
 
+  emptyCartLabel = ( <div className="row px-4 py1"> (No Items Selected)</div>) ;
+
   render() {
 
     const { aggregates, emptyCart } = this.state;
     const items = this.props.course_episodes.map(this.tableItemFunc);
 
     const cartItems = emptyCart ?
-      ( <div className="row px-4 py1"> (No Items Selected)</div>) :
-      Object.keys(aggregates).map(this.cartItemFunc);
+      this.emptyCartLabel : Object.keys(aggregates).map(this.cartItemFunc);
       
 
     return (
