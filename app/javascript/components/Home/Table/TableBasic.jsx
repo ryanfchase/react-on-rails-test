@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactModal from 'react-modal';
-
+import CartModifyButton from './CartModifyButton';
 
 let cartKey = 0;
 
@@ -30,10 +29,10 @@ class TableBasic extends Component {
   aggregateCart = () => {
     return this.props.cart.reduce((aggregates, episode) => {
       if (episode.title in aggregates) {
-        aggregates[episode.title] = aggregates[episode.title] + 1;
+        aggregates[episode.title].count = aggregates[episode.title].count + 1;
       }
       else {
-        aggregates[episode.title] = 1;
+        aggregates[episode.title] = {count: 1, id: episode.id};
       }
       return aggregates;
     }, {});
@@ -49,9 +48,19 @@ class TableBasic extends Component {
   }
 
   cartItemFunc = (key) => {
+    const aggregate = this.state.aggregates[key];
+    console.log(key, JSON.stringify(aggregate))
+
     return (
       <div className="row px-4 py1" key={cartKey++}>
-        <span>{key} - <button>{this.state.aggregates[key]}</button></span>
+        <span>
+          {key} - <button>{aggregate.count}</button>
+          <CartModifyButton 
+            addToCart={this.props.addToCart}
+            removeFromCart={this.props.removeFromCart}
+            aggregate={({...aggregate, title: key})}
+          />
+        </span>
       </div>
     );
   }
@@ -64,7 +73,8 @@ class TableBasic extends Component {
     const items = this.props.course_episodes.map(this.tableItemFunc);
 
     const cartItems = emptyCart ?
-      this.emptyCartLabel : Object.keys(aggregates).map(this.cartItemFunc);
+      this.emptyCartLabel :
+      Object.keys(aggregates).map(this.cartItemFunc);
       
 
     return (
