@@ -49,7 +49,6 @@ class TableBasic extends Component {
 
   cartItemFunc = (key) => {
     const aggregate = this.state.aggregates[key];
-    console.log(key, JSON.stringify(aggregate))
 
     return (
       <div className="row px-4 py1" key={cartKey++}>

@@ -24,6 +24,11 @@ class CartModifyButton extends Component {
     this.setState({ showModal: false });
   }
 
+  handleAddToCart = () => {
+    // const episode = this.props.cartItem
+    // this.props.addToCart
+  }
+
   render() {
 
     let title = this.state.title;
@@ -31,6 +36,8 @@ class CartModifyButton extends Component {
     if (title.length > MAX_TITLE_LENGTH) {
       title.slice(0, MAX_TITLE_LENGTH).concat("...");
     }
+
+    console.log(JSON.stringify(this.props.aggregate))
 
     return (
       <div>
@@ -43,6 +50,7 @@ class CartModifyButton extends Component {
           <button onClick={this.props.addToCart}> Add Another "{title}"</button>
           <button onClick={this.props.removeFromCart}> Remove One "{title}"</button>
           <button onClick={this.handleCloseModal}> Close Modal </button>
+          Amount: {JSON.stringify(this.props.aggregate.count)}
         </ReactModal>
       </div>
     );
