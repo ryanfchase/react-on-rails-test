@@ -20,10 +20,11 @@ class Home extends Component {
     super(props);
 
     this.state = { course_episodes: [], cart: []};
+    // TODO some sort of quick load on cart, perhaps sessionStorage
   }
 
   componentDidMount() {
-    let course_episodes = localStorage.getItem(EPISODES_KEY);
+    let course_episodes = localStorage.getItem(EPISODES_KEY); // TODO - switch to sessionStorage
 
     if (course_episodes) {
       this.setState({course_episodes: JSON.parse(course_episodes)})
@@ -36,7 +37,7 @@ class Home extends Component {
           );
 
           this.setState({course_episodes: course_episodes});
-          localStorage.setItem(EPISODES_KEY, JSON.stringify(course_episodes))
+          localStorage.setItem(EPISODES_KEY, JSON.stringify(course_episodes)) // TODO - switch to sessionStorage
         }).catch( err => {
           console.log("error while display Home", err);
         })
@@ -44,8 +45,27 @@ class Home extends Component {
   }
 
   addToCart = (episode) => {
-    let cart = [].concat(this.state.cart, episode);
-    this.setState({cart: cart})
+    console.log("epsiode: ", JSON.stringify(episode))
+
+    let cartIdx = -1
+    this.state.cart.forEach((cartItem, idx) => {
+      cartIdx = cartItem.id === episode.id ? idx : cartIdx;
+    })
+
+    if (cartIdx === -1) {
+      this.setState( prevState => {
+        return ({ cart: [].concat(prevState.cart, {...episode, count: 1})})
+       })
+    } else {
+      console.log("Adding to cart", JSON.stringify(this.state.cart[cartIdx]))
+      this.setState( prevState => {
+        return ({ cart: [].concat(
+                      prevState.cart.slice(0, cartIdx),
+                      ({...prevState.cart[cartIdx], count: prevState.cart[cartIdx].count + 1}),
+                      prevState.cart.slice(cartIdx + 1)
+        )})
+      })
+    }
   }
 
   removeFromCart = (episode) => {

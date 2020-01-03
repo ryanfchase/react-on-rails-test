@@ -18,13 +18,13 @@ class App extends Component {
     super();
 
     this.state = {
-      loggedInStatus: localStorage.getItem(LOGIN_KEY) || "NOT_LOGGED_IN",
+      loggedInStatus: localStorage.getItem(LOGIN_KEY) || "NOT_LOGGED_IN", // decide between localStorage and sessionStorage
       user: {},
     };
   }
 
   handleLogin = (data) => {
-    localStorage.setItem(LOGIN_KEY, LOGIN_VALUE);
+    localStorage.setItem(LOGIN_KEY, LOGIN_VALUE); // decide between ^^
     this.setState({
       loggedInStatus: "LOGGED_IN",
       user: data
@@ -37,11 +37,11 @@ class App extends Component {
         // console.log("loggied in?", JSON.stringify(res))
         if(res.data.logged_in && this.state.loggedInStatus === "NOT_LOGGED_IN") {
           this.setState({
-            loggedInStatus: localStorage.getItem(LOGIN_KEY) || "LOGGED_IN",
+            loggedInStatus: localStorage.getItem(LOGIN_KEY) || "LOGGED_IN", // TODO - decide again
             user: res.data.user
           });
 
-          localStorage.setItem(LOGIN_KEY, LOGIN_VALUE);
+          localStorage.setItem(LOGIN_KEY, LOGIN_VALUE); // TODO - decide again
         }
         else if(!res.data.logged_in && this.state.loggedInStatus === "LOGGED_IN") {
           // Log them out if our DB says their session is no longer good
@@ -50,7 +50,7 @@ class App extends Component {
             user: res.data.user
           });
 
-          localStorage.removeItem(LOGIN_KEY)
+          localStorage.removeItem(LOGIN_KEY) // TODO - decide again
         }
       })
       .catch(err => {
@@ -68,7 +68,7 @@ class App extends Component {
       user: {}
     })
 
-    localStorage.removeItem(LOGIN_KEY);
+    localStorage.removeItem(LOGIN_KEY); // TODO - decide again
   }
 
   render() {
