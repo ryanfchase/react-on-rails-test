@@ -44,43 +44,82 @@ class Home extends Component {
     }
   }
 
-  addToCart = (episode) => {
-    console.log("epsiode: ", JSON.stringify(episode))
-
+  addToCart = (cartItem) => {
     let cartIdx = -1
-    this.state.cart.forEach((cartItem, idx) => {
-      cartIdx = cartItem.id === episode.id ? idx : cartIdx;
+    this.state.cart.forEach((e, idx) => {
+      cartIdx = cartItem.id === e.id ? idx : cartIdx;
     })
 
     if (cartIdx === -1) {
       this.setState( prevState => {
-        return ({ cart: [].concat(prevState.cart, {...episode, count: 1})})
+        return ({ cart: [].concat(prevState.cart, {...cartItem, count: 1})})
        })
     } else {
-      console.log("Adding to cart", JSON.stringify(this.state.cart[cartIdx]))
       this.setState( prevState => {
+        const prevItem = prevState.cart[cartIdx];
+        const newItem = ({...prevItem, count: prevItem.count + 1});
         return ({ cart: [].concat(
-                      prevState.cart.slice(0, cartIdx),
-                      ({...prevState.cart[cartIdx], count: prevState.cart[cartIdx].count + 1}),
-                      prevState.cart.slice(cartIdx + 1)
+                            prevState.cart.slice(0, cartIdx),
+                            newItem,
+                            prevState.cart.slice(cartIdx + 1)
         )})
       })
     }
   }
 
-  removeFromCart = (episode) => {
-    const { cart } = this.state;
+  removeFromCart = (cartItem) => {
 
-    idx = cart.reduce((cartEpisode, retIdx, idx) => {
-      episode.id === cartEpisode.id ? idx : -1
-    }, -1)
+    let cartIdx = -1;
+    this.state.cart.forEach((e, idx) => {
+      cartIdx = cartItem.id === e.id ? idx : cartIdx;
+    })
 
-    if (idx !== -1) {
-      let cart = [].concat(cart, episode);
-      this.setState({cart: cart})
+    if (cartIdx !== -1) {
+      let count = cartItem.count;
+      if (count === 1) {
+        this.setState( prevState => ({
+          cart: [].concat(
+                    prevState.cart.slice(0, cartIdx),
+                    prevState.cart.slice(cartIdx + 1)
+        )}))
+      } else {
+        this.setState( prevState => {
+          const prevItem = prevState.cart[cartIdx];
+          const newItem = ({...prevItem, count: prevItem.count - 1});
+          return ({ cart: [].concat(
+                              prevState.cart.slice(0, cartIdx),
+                              newItem,
+                              prevState.cart.slice(cartIdx + 1)
+          )})
+        })
+      }
     } else {
-      // SOME ERROR HERE
+      console.log("tried to remove ", JSON.stringify(cartItem), " but cart was ", JSON.stringify(this.state.cart))
+      console.log("tried to remove index of", cartIdx)
     }
+  }
+
+  removeAllOfItemFromCart = (cartItem) => {
+    let cartIdx = -1;
+    this.state.cart.forEach((e, idx) => {
+      cartIdx = cartItem.id === e.id ? idx : cartIdx;
+    })
+
+    if (cartIdx !== -1) {
+      this.setState( prevState => ({
+        cart: [].concat(
+                  prevState.cart.slice(0, cartIdx),
+                  prevState.cart.slice(cartIdx + 1)
+      )}))
+    }
+    else {
+      console.log("tried to remove ALL", JSON.stringify(cartItem), " but cart was ", JSON.stringify(this.state.cart))
+      console.log("tried to remove index of", cartIdx)
+    }
+  }
+
+  removeAllFromCart = () => {
+    this.setState({ cart: []});
   }
 
   render() {
@@ -88,8 +127,15 @@ class Home extends Component {
       <div className="container">
         <h1>Home</h1>
         <h3>Status: {this.props.loggedInStatus} </h3>
-        <h3> Total Amount: { this.state.cart.reduce((total, episode) => total + episode.price, 0) }</h3>
-        <TableBasic addToCart={this.addToCart} course_episodes={this.state.course_episodes} cart={this.state.cart} />
+        <h3> Total Amount: { this.state.cart.reduce((total, cartItem) => total + cartItem.price, 0) }</h3>
+        <TableBasic
+          addToCart={this.addToCart}
+          removeAllFromCart={this.removeAllFromCart}
+          removeFromCart={this.removeFromCart}
+          removeAllOfItemFromCart={this.removeAllOfItemFromCart}
+          course_episodes={this.state.course_episodes}
+          cart={this.state.cart}
+        />
       </div>
     );
   }

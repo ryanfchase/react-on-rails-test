@@ -10,7 +10,6 @@ class CartModifyButton extends Component {
 
     this.state = {
       showModal: false,
-      title: this.props.aggregate.title,
     };
   }
 
@@ -31,13 +30,12 @@ class CartModifyButton extends Component {
 
   render() {
 
-    let title = this.state.title;
+    let cartItem = this.props.cartItem;
+    let title = cartItem.title;
 
     if (title.length > MAX_TITLE_LENGTH) {
       title.slice(0, MAX_TITLE_LENGTH).concat("...");
     }
-
-    console.log(JSON.stringify(this.props.aggregate))
 
     return (
       <div>
@@ -47,10 +45,11 @@ class CartModifyButton extends Component {
           contentLabel="Cart Modify Modal"
           ariaHideApp={false}
         >
-          <button onClick={this.props.addToCart}> Add Another "{title}"</button>
-          <button onClick={this.props.removeFromCart}> Remove One "{title}"</button>
+          <button onClick={e => this.props.addToCart(cartItem)}> Add Another "{title}"</button>
+          <button onClick={e => this.props.removeFromCart(cartItem)}> Remove One "{title}"</button>
+          <button onClick={e => this.props.removeAllOfItemFromCart(cartItem)}> Remove All of "{title}"</button>
           <button onClick={this.handleCloseModal}> Close Modal </button>
-          Amount: {JSON.stringify(this.props.aggregate.count)}
+          Amount: {this.props.cartItem.count}
         </ReactModal>
       </div>
     );

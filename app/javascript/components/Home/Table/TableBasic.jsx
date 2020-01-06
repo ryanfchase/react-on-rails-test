@@ -5,40 +5,7 @@ let cartKey = 0;
 
 class TableBasic extends Component {
 
-  constructor(props) {
-    super(props);
-
-    const aggregates = this.aggregateCart();
-
-    this.state = {
-      aggregates: aggregates, 
-      emptyCart: Object.keys(aggregates).length === 0,
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if( prevProps.cart.length !== this.props.cart.length ) {
-      const aggregates = this.aggregateCart();
-      this.setState({
-        aggregates: aggregates,
-        emptyCart: Object.keys(aggregates).length === 0,
-      });
-    }
-  }
-
-  aggregateCart = () => {
-    return this.props.cart.reduce((aggregates, episode) => {
-      if (episode.title in aggregates) {
-        aggregates[episode.title].count = aggregates[episode.title].count + 1;
-      }
-      else {
-        aggregates[episode.title] = {count: 1, id: episode.id};
-      }
-      return aggregates;
-    }, {});
-  }
-
-  tableItemFunc = (episode) => {
+  episodeToTable = (episode) => {
     return (
       <div className="row px-4 py-1" key={episode.id}>
         <button className="mx-2" onClick={(e) => this.props.addToCart(episode)}> Add To Cart </button>
@@ -47,17 +14,17 @@ class TableBasic extends Component {
     );
   }
 
-  cartItemFunc = (key) => {
-    const aggregate = this.state.aggregates[key];
+  cartToTable = (cartItem) => {
 
     return (
       <div className="row px-4 py1" key={cartKey++}>
         <span>
-          {key} - <button>{aggregate.count}</button>
+          {cartItem.title} - <button>{cartItem.count}</button>
           <CartModifyButton 
             addToCart={this.props.addToCart}
             removeFromCart={this.props.removeFromCart}
-            aggregate={({...aggregate, title: key})}
+            removeAllOfItemFromCart={this.props.removeAllOfItemFromCart}
+            cartItem={cartItem}
           />
         </span>
       </div>
@@ -68,12 +35,11 @@ class TableBasic extends Component {
 
   render() {
 
-    const { aggregates, emptyCart } = this.state;
-    const items = this.props.course_episodes.map(this.tableItemFunc);
+    const items = this.props.course_episodes.map(this.episodeToTable);
 
-    const cartItems = emptyCart ?
+    const cartItems = this.props.cart.length === 0 ?
       this.emptyCartLabel :
-      Object.keys(aggregates).map(this.cartItemFunc);
+      this.props.cart.map(this.cartToTable);
       
 
     return (
@@ -84,6 +50,7 @@ class TableBasic extends Component {
         </div>
         <div className="col">
           <h5>Cart</h5>
+          <button onClick={this.props.removeAllFromCart}>Clear All</button>
           {cartItems}
         </div>
       </div>
