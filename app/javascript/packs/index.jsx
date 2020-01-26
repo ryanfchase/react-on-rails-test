@@ -11,22 +11,23 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios'
 
 const LOGIN_KEY = "loggedIn";
-const LOGIN_VALUE = "loggedIn";
+const LOGIN_VALUE = "LOGGED_IN";
+const NO_LOGIN_VALUE = "NOT_LOGGED_IN";
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      loggedInStatus: localStorage.getItem(LOGIN_KEY) || "NOT_LOGGED_IN", // decide between localStorage and sessionStorage
+      loggedInStatus: sessionStorage.getItem(LOGIN_KEY) || NO_LOGIN_VALUE,
       user: {},
     };
   }
 
   handleLogin = (data) => {
-    localStorage.setItem(LOGIN_KEY, LOGIN_VALUE); // decide between ^^
+    sessionStorage.setItem(LOGIN_KEY, LOGIN_VALUE);
     this.setState({
-      loggedInStatus: "LOGGED_IN",
+      loggedInStatus: LOGIN_VALUE,
       user: data
     })
   }
@@ -34,23 +35,23 @@ class App extends Component {
   checkLoginStatus() {
     axios.get("/logged_in", { withCredentials: true })
       .then(res => {
-        // console.log("loggied in?", JSON.stringify(res))
-        if(res.data.logged_in && this.state.loggedInStatus === "NOT_LOGGED_IN") {
+        console.log("loggedInStatus", this.state.loggedInStatus)
+        console.log("res status", res.data.logged_in)
+        if(res.data.logged_in && this.state.loggedInStatus === NO_LOGIN_VALUE) {
           this.setState({
-            loggedInStatus: localStorage.getItem(LOGIN_KEY) || "LOGGED_IN", // TODO - decide again
+            loggedInStatus: sessionStorage.getItem(LOGIN_KEY) || LOGIN_VALUE,
             user: res.data.user
           });
 
-          localStorage.setItem(LOGIN_KEY, LOGIN_VALUE); // TODO - decide again
+          sessionStorage.setItem(LOGIN_KEY, LOGIN_VALUE);
         }
-        else if(!res.data.logged_in && this.state.loggedInStatus === "LOGGED_IN") {
-          // Log them out if our DB says their session is no longer good
+        else if(!res.data.logged_in && this.state.loggedInStatus === LOGIN_VALUE) {
           this.setState({
-            loggedInStatus: "NOT_LOGGED_IN",
+            loggedInStatus: NO_LOGIN_VALUE,
             user: res.data.user
           });
 
-          localStorage.removeItem(LOGIN_KEY) // TODO - decide again
+          sessionStorage.removeItem(LOGIN_KEY)
         }
       })
       .catch(err => {
@@ -64,11 +65,11 @@ class App extends Component {
 
   handleLogout = () => {
     this.setState({
-      loggedInStatus: "NOT_LOGGED_IN",
+      loggedInStatus: NO_LOGIN_VALUE,
       user: {}
     })
 
-    localStorage.removeItem(LOGIN_KEY); // TODO - decide again
+    sessionStorage.removeItem(LOGIN_KEY);
   }
 
   render() {
