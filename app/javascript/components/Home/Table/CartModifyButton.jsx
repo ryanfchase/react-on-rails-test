@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactModal from 'react-modal';
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button';
 
 const MAX_TITLE_LENGTH = 7
 
@@ -38,8 +40,8 @@ class CartModifyButton extends Component {
     }
 
     return (
-      <div>
-        <button onClick={this.handleOpenModal}> Open Modal </button>
+      <span className="px-2">
+        <Button color="primary" variant="contained" onClick={ this.handleOpenModal}> Open Modal </Button>
         <ReactModal
           isOpen={this.state.showModal}
           contentLabel="Cart Modify Modal"
@@ -51,7 +53,7 @@ class CartModifyButton extends Component {
           <button onClick={this.handleCloseModal}> Close Modal </button>
           Amount: {this.props.cartItem.count}
         </ReactModal>
-      </div>
+      </span>
     );
   }
 

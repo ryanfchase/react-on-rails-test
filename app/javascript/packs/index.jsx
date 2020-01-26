@@ -7,8 +7,9 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from '../components/Login';
 import Home from '../components/Home/Home';
-import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'typeface-roboto';
 
 const LOGIN_KEY = "loggedIn";
 const LOGIN_VALUE = "LOGGED_IN";

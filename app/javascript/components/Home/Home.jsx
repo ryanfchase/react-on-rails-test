@@ -5,12 +5,13 @@
 //   -ActiveItem
 //     -Video
 
-import React, { Component } from 'react';
 // import Jumbotron from './Jumbotron';
 // import Table from './Table/Table';
 // import Navbar from './Navbar';
+import React, { Component } from 'react';
 import TableBasic from './Table/TableBasic';
 import axios from 'axios';
+import Typography from '@material-ui/core/Typography';
 
 const EPISODES_KEY = "episodes";
 
@@ -125,9 +126,13 @@ class Home extends Component {
   render() {
     return (
       <div className="container">
-        <h1>Home</h1>
-        <h3>Status: {this.props.loggedInStatus} </h3>
-        <h3> Total Amount: { this.state.cart.reduce((total, cartItem) => total + cartItem.price, 0) }</h3>
+        <Typography variant="h1"> Home </Typography>
+        <Typography variant="h5"> Status: {this.props.loggedInStatus} </Typography>
+
+        <Typography variant="h5">
+          Total Amount: {this.state.cart.reduce((total, cartItem) => total + cartItem.price, 0)}
+        </Typography>
+
         <TableBasic
           addToCart={this.addToCart}
           removeAllFromCart={this.removeAllFromCart}
