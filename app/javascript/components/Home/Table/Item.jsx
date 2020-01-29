@@ -1,58 +1,73 @@
 import React, { Component } from 'react';
-import Thumbnail from './Thumbnail';
-import styled from 'styled-components';
 
-const Button = styled.a`
-  text-decoration: none;
-  font-weight: bold !important;
-  border-radius: 0 !important;
-  background: #fff !important;
-  color: #333 !important;
-  padding: 10px 20px !important;
-  font-size: 18px;
+import { withStyles, styled } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 
-  box-shadow: 0px 0px 0px 3px #473228,
-    -6px 6px #ef5f17,
-    -6px 6px 0px 3px #473228;
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
-  transition-property: none !important;
-  &:hover {
-    position: relative;
-    box-shadow: 0px 0px 0px 3px #473228;
-    top: 6px;
-    left: -6px;
-    transition-property: none !important;
+import Sunrise from 'images/sunrise.png'
+
+const MyCard = withStyles({
+  root: {
+    maxWidth: 345,
+  },
+})(Card);
+
+const MyButton = withStyles({
+  label: {
+    whiteSpace: 'nowrap',
   }
-`;
+})(Button);
+
+const MyCardMedia = withStyles({
+  root: {
+    height: 140,
+  }
+})(CardMedia);
 
 const Item = (props) => {
+
+  const episode = props.episode;
+
   return (
-    <div className="row pt-4 pb-4">
-      <div className="col-md-10 offset-md-1">
-        <div className="text-left">
-          <div className="card px-5">
-            <div className="row">
-              <div className="col-md-4">
-                <Thumbnail />
-              </div>
-              <div className="col-md-8">
-                <div className="pt-4 pb-4">
-                  <h4>{props.title}</h4>
-                  <p>{props.description}</p>
-                  <div className="cta-wrapper">
-                    <Button
-                      onClick={props.handleItemActivate}
-                      className="btn cta-btn">
-                        Watch This Video
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+        <MyCard>
+          <CardActionArea>
+            <MyCardMedia 
+              image={Sunrise}
+              title="Sunrise Pic"
+            >
+            </MyCardMedia>
+            <CardContent>
+              <Typography variant="h5">{episode.title.slice(0,15) + (episode.title.length > 15 ? "..." : "")}</Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                across all continents except Antarctica
+                --
+                {episode.description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <MyButton size="small" color="primary">
+              Share
+            </MyButton>
+            <MyButton size="small" color="primary">
+              Learn More
+            </MyButton>
+            <MyButton
+              color="primary" size="small"
+              onClick={(e) => props.addToCart(episode)}
+            >
+              Add To Cart
+            </MyButton>
+          </CardActions>
+        </MyCard>
   );
 }
 
